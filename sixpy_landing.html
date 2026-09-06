@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sixpy - הורדת אפליקציה</title>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: #0d0814;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Background glow effects */
+        .bg-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.25) 0%, rgba(13, 8, 20, 0) 70%);
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        header {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.15);
+            background: rgba(13, 8, 20, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container img {
+            height: 40px;
+            filter: drop-shadow(0 2px 8px rgba(138, 43, 226, 0.5));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #b8b2cb;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #d8b4fe;
+        }
+
+        .hero {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 50px 15px 40px 15px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            background: rgba(147, 51, 234, 0.15);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e9d5ff;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-title-img {
+            max-width: 380px;
+            width: 90%;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 10px 25px rgba(126, 34, 206, 0.4));
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #c4b5fd;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 650px;
+            padding: 0 10px;
+        }
+
+        .cta-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #9333ea, #7e22ce);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(147, 51, 234, 0.4);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(216, 180, 254, 0.3);
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(147, 51, 234, 0.6);
+            background: linear-gradient(135deg, #a855f7, #9333ea);
+        }
+
+        .app-preview-card {
+            background: linear-gradient(145deg, rgba(30, 20, 50, 0.6), rgba(15, 10, 25, 0.8));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            max-width: 450px;
+            width: 100%;
+            margin: 0 auto 50px auto;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .app-preview-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #7e22ce, #581c87);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(126, 34, 206, 0.5);
+            border: 1px solid rgba(216, 180, 254, 0.3);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .app-preview-icon img {
+            width: 75%;
+            height: 75%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+
+        .app-preview-info {
+            text-align: right;
+        }
+
+        .app-preview-info h3 {
+            font-size: 1.15rem;
+            margin-bottom: 4px;
+            color: #ffffff;
+        }
+
+        .app-preview-info p {
+            font-size: 0.85rem;
+            color: #a78bfa;
+            margin-bottom: 8px;
+        }
+
+        .app-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            flex-wrap: wrap;
+        }
+
+        .app-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .features-section {
+            padding: 40px 5%;
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 5;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 35px;
+            background: linear-gradient(135deg, #ffffff, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: rgba(20, 13, 33, 0.7);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            border-radius: 16px;
+            padding: 25px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: translateY(-3px);
+            background: rgba(28, 18, 46, 0.8);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(147, 51, 234, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d8b4fe;
+            font-size: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            color: #f3e8ff;
+        }
+
+        .feature-card p {
+            color: #a78bfa;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            border-top: 1px solid rgba(138, 43, 226, 0.15);
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-top: 50px;
+            background: rgba(8, 5, 13, 0.9);
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Media query adjustments for mobile screens */
+        @media (max-width: 600px) {
+            header {
+                padding: 12px 20px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero {
+                padding: 35px 15px 30px 15px;
+            }
+            .app-preview-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+                padding: 20px 15px;
+            }
+            .app-preview-info {
+                text-align: center;
+            }
+            .app-stats {
+                justify-content: center;
+            }
+            .hero-title-img {
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <header>
+        <div class="logo-container">
+            <img src="image_b6d70a.png" alt="Sixpy Logo">
+            <span style="font-size: 1.25rem; font-weight: 800; background: linear-gradient(135deg, #ffffff, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SIXPY</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#features">תכונות</a></li>
+            <li><a href="#download">הורדה</a></li>
+            <li><a href="https://sixpy.lovable.app/" target="_blank">לאתר הרשמי</a></li>
+        </ul>
+    </header>
+
+    <main class="hero" id="download">
+        <div class="hero-badge">
+            <i class="fa-solid fa-bolt"></i> קובץ APK רשמי זמין להורדה
+        </div>
+
+        <img src="image_b6d703.png" alt="Sixpy Logo Banner" class="hero-title-img">
+        
+        <p>חווה את החוויה המתקדמת ביותר באפליקציית Sixpy. עיצוב חדשני, מהירות תגובה חסרת פשרות וכל הכלים במקום אחד ישירות למכשיר שלך.</p>
+
+        <div class="cta-container">
+            <a href="app-debug.apk" class="btn-download" download="app-debug.apk">
+                <i class="fa-brands fa-android"></i> הורד APK (גרסת פיתוח)
+            </a>
+        </div>
+
+        <div class="app-preview-card">
+            <div class="app-preview-icon">
+                <img src="image_b6d70a.png" alt="Sixpy App Icon">
+            </div>
+            <div class="app-preview-info">
+                <h3>Sixpy Android App</h3>
+                <p>קובץ התקנה רשמי למכשירי אנדרואיד</p>
+                <div class="app-stats">
+                    <span><i class="fa-solid fa-file-arrow-down"></i> קובץ: app-debug.apk</span>
+                    <span><i class="fa-solid fa-shield-halved"></i> מאובטח</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="features-section" id="features">
+        <h2 class="section-title">למה לבחור ב-Sixpy?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h3>עיצוב ויזואלי מהמם</h3>
+                <p>ממשק משתמש מוקפד בגווני סגול וזהב יוקרתיים, המספקים חוויית שימוש חלקה ונעימה לעין.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-gauge-high"></i>
+                </div>
+                <h3>ביצועים מהירים</h3>
+                <p>אפליקציה קלת משקל המותאמת לעבודה שוטפת ללא תקיעות וללא זליגת משאבים מיותרת.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3>אבטחה ופרטיות</h3>
+                <p>הגנה מלאה על הנתונים שלך עם פרוטוקולי אבטחה מתקדמים ועדכונים שוטפים.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Sixpy. כל הזכויות שמורות.</p>
+    </footer>
+
+</body>
+</html>
